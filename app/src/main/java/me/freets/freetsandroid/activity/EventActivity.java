@@ -1,7 +1,10 @@
 package me.freets.freetsandroid.activity;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -59,7 +62,19 @@ public class EventActivity extends Activity {
         // we don't look for swipes.
         mListView.setOnScrollListener(touchListener.makeScrollListener());
 
-        notifyOn = true;
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPref.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                if(key.equals("pref_notify") && mToggleNotify != null) {
+                    if(sharedPref.getBoolean("pref_notify", true)) {
+                        mToggleNotify.setIcon(R.drawable.ic_sync_white_36dp);
+                    } else {
+                        mToggleNotify.setIcon(R.drawable.ic_sync_disabled_white_36dp);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -67,6 +82,14 @@ public class EventActivity extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_event, menu);
         mToggleNotify = menu.findItem(R.id.action_enable_notify);
+
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        if(sharedPref.getBoolean("pref_notify", true)) {
+            mToggleNotify.setIcon(R.drawable.ic_sync_white_36dp);
+        } else {
+            mToggleNotify.setIcon(R.drawable.ic_sync_disabled_white_36dp);
+        }
+
         return true;
     }
 
@@ -80,14 +103,10 @@ public class EventActivity extends Activity {
         //noinspection SimplifiableIfStatement
         switch(id) {
             case R.id.action_settings:
+                Intent settings = new Intent(this, SettingsActivity.class);
+                startActivity(settings);
                 return true;
             case R.id.action_enable_notify:
-                if(notifyOn) {
-                    mToggleNotify.setIcon(R.drawable.ic_sync_disabled_white_36dp);
-                } else {
-                    mToggleNotify.setIcon(R.drawable.ic_sync_white_36dp);
-                }
-                notifyOn = !notifyOn;
                 return true;
         }
 

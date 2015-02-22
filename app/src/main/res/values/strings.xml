@@ -27,4 +27,14 @@
     <string name="action_enable_notify">Notify</string>
 
     <string name="title_activity_event">freets.me</string>
+
+    <string name="pref_notify">Send notifications</string>
+    <string name="pref_notify_summ">If checked, freets.me will notify you
+    when free food is about to arrive!</string>
+
+    <string name="pref_notify_when">Time before notifications</string>
+    <string name="pref_notify_when_default">30</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

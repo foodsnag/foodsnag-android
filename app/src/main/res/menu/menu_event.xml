@@ -5,7 +5,8 @@
     <item android:id="@+id/action_enable_notify"
         android:title="@string/action_enable_notify"
         android:icon="@drawable/ic_sync_white_36dp"
-        android:checkable="true"
+        android:enabled="false"
+        android:checkable="false"
         android:showAsAction="always" />
 
 
