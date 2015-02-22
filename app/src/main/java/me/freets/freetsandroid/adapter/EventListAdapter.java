@@ -4,7 +4,7 @@ import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -18,7 +18,7 @@ import me.freets.freetsandroid.model.Event;
 /**
  * Created by skroh on 2/21/15.
  */
-public class EventListAdapter implements ListAdapter {
+public class EventListAdapter extends BaseAdapter {
 
     private List<Event> mDataset;
     private SimpleDateFormat sdf;
@@ -70,6 +70,10 @@ public class EventListAdapter implements ListAdapter {
     @Override
     public Object getItem(int position) {
         return mDataset.get(position);
+    }
+
+    public void remove(Object event) {
+        mDataset.remove(event);
     }
 
     @Override

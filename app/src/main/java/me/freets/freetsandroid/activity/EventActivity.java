@@ -4,16 +4,18 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.example.android.swipedismiss.SwipeDismissListViewTouchListener;
+
 import me.freets.freetsandroid.R;
+import me.freets.freetsandroid.adapter.EventAdapter;
 import me.freets.freetsandroid.adapter.EventListAdapter;
 
 public class EventActivity extends Activity {
 
     private ListView mListView;
-    private ListAdapter mAdapter;
+    private EventListAdapter mAdapter;
 
     //private RecyclerView mRecyclerView;
     //private EventAdapter mAdapter;
@@ -29,12 +31,30 @@ public class EventActivity extends Activity {
 
         mListView.setAdapter(mAdapter);
 
-//        mRecyclerView = (RecyclerView)findViewById(R.id.event_recycler_view);
-//        mLayoutManager = new LinearLayoutManager(this);
-//
-//        mRecyclerView.setLayoutManager(mLayoutManager);
-//        mAdapter = new EventAdapter();
-//        mRecyclerView.setAdapter(mAdapter);
+        // Create a ListView-specific touch listener. ListViews are given special treatment because
+        // by default they handle touches for their list items... i.e. they're in charge of drawing
+        // the pressed state (the list selector), handling list item clicks, etc.
+        SwipeDismissListViewTouchListener touchListener =
+                new SwipeDismissListViewTouchListener(
+                        mListView,
+                        new SwipeDismissListViewTouchListener.DismissCallbacks() {
+                            @Override
+                            public boolean canDismiss(int position) {
+                                return true;
+                            }
+
+                            @Override
+                            public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+                                    mAdapter.remove(mAdapter.getItem(position));
+                                }
+                                mAdapter.notifyDataSetChanged();
+                            }
+                        });
+        mListView.setOnTouchListener(touchListener);
+        // Setting this scroll listener is required to ensure that during ListView scrolling,
+        // we don't look for swipes.
+        mListView.setOnScrollListener(touchListener.makeScrollListener());
     }
 
     @Override
