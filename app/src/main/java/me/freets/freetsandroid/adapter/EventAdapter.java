@@ -57,9 +57,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         TextView time = (TextView) holder.mView.findViewById(R.id.event_time);
         TextView name = (TextView) holder.mView.findViewById(R.id.event_name);
+        TextView location = (TextView) holder.mView.findViewById(R.id.event_location);
 
         time.setText(sdf.format(mDataset.get(position).cal.getTime()));
         name.setText(mDataset.get(position).name);
+        location.setText(mDataset.get(position).location);
     }
 
     @Override
