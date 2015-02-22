@@ -1,12 +1,15 @@
 package me.freets.freetsandroid.adapter;
 
+import android.content.SharedPreferences;
 import android.database.DataSetObserver;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -16,7 +19,10 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import me.freets.freetsandroid.R;
+import me.freets.freetsandroid.activity.EventActivity;
+import me.freets.freetsandroid.activity.SettingsActivity;
 import me.freets.freetsandroid.model.Event;
+import me.freets.freetsandroid.model.FreetsApi;
 
 /**
  * Created by skroh on 2/21/15.
@@ -26,7 +32,13 @@ public class EventListAdapter extends BaseAdapter {
     private List<Event> mDataset;
     private SimpleDateFormat sdf;
 
-    public EventListAdapter() {
+    private final EventActivity mActivity;
+    private final SharedPreferences mPrefs;
+
+    public EventListAdapter(EventActivity ea, SharedPreferences mPrefs) {
+        this.mActivity = ea;
+        this.mPrefs = mPrefs;
+
         List<Event> mock = new ArrayList<Event>();
         mock.add(new Event("HVZ Pizza Party", "Sundial", "RIT", new GregorianCalendar(2015, 2, 28, 13, 0), Event.EventIcon.PIZZA));
         mock.add(new Event("Honors Pizza Friday", "Orange Hall", "RIT", new GregorianCalendar(2015, 2, 22, 0, 30), Event.EventIcon.PIZZA));
@@ -127,6 +139,39 @@ public class EventListAdapter extends BaseAdapter {
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return mDataset.isEmpty();
+    }
+
+    public void get() {
+
+        int lim = SettingsActivity.FREETS_EVENT_LIMIT;
+        String str = mPrefs.getString("pref_location_id", "");
+        int id = Integer.valueOf(str);
+        FreetsApi api = FreetsApi.getInstance();
+        api.getEvents(id, lim, new FreetsApi.EventsCallback() {
+            @Override
+            public void setEvents(final List<Event> events) {
+                mActivity.runOnUiThread(new Runnable() {
+                    @Override public void run() {
+                        mDataset.clear();
+                        if(events != null) {
+                            mDataset.addAll(events);
+                        }
+                        EventListAdapter.this.notifyDataSetChanged();
+                        ListView lv = (ListView)mActivity.findViewById(R.id.event_list_view);
+                        lv.forceLayout();
+//                        lv.destroyDrawingCache();
+//                        lv.forceLayout();
+//                        lv.refreshDrawableState();
+                        //lv.invalidate();
+                    }
+                });
+                //EventListAdapter.this.notifyDataSetChanged();
+
+                System.out.println("Here");
+                Log.d("tag", "here");
+                //EventListAdapter.this.notifyDataSetInvalidated();
+            }
+        });
     }
 }

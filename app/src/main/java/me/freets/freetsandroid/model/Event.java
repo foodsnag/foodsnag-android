@@ -1,6 +1,7 @@
 package me.freets.freetsandroid.model;
 
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 import me.freets.freetsandroid.R;
 
@@ -22,6 +23,16 @@ public class Event {
         this.ic = ic;
     }
 
+    public Event(JsonEvent je) {
+        this.name = je.name;
+        this.location = je.place;
+        this.college = ""; // TODO: Convert from location_id
+        GregorianCalendar cal = new GregorianCalendar();
+//        cal.setTime(je.time);
+        this.cal = cal;
+        this.ic = EventIcon.getIcon(je.serving);
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other instanceof Event) {
@@ -38,32 +49,50 @@ public class Event {
 
     public enum EventIcon {
 
-        FRUIT(R.drawable.ic_food4),
-        LEMONADE(R.drawable.ic_food13),
-        BREAKFAST(R.drawable.ic_food59),
-        MEAT(R.drawable.ic_food62),
-        SAUSAGE(R.drawable.ic_food71),
-        HOT_DOG(R.drawable.ic_food118),
-        CANDY(R.drawable.ic_food83),
-        ICE_CREAM(R.drawable.ic_food89),
-        BEVERAGES(R.drawable.ic_food92),
-        SOUP(R.drawable.ic_food101),
-        ALCOHOL(R.drawable.ic_food110),
-        BURGERS(R.drawable.ic_food115),
-        PIZZA(R.drawable.ic_food117),
-        CHICKEN(R.drawable.ic_food126),
-        FISH(R.drawable.ic_food127),
-        CAKE(R.drawable.ic_food134),
-        BBQ(R.drawable.ic_food156),
-        FORMAL_DINNER(R.drawable.ic_food164),
-        OTHER(R.drawable.ic_food174),
-        SMOOTHIE(R.drawable.ic_food181),
-        COFFEE(R.drawable.ic_food194),
-        TEA(R.drawable.ic_food195);
+        FRUIT(R.drawable.ic_food4, "Fruit"),
+        LEMONADE(R.drawable.ic_food13, "Lemonade"),
+        BREAKFAST(R.drawable.ic_food59, "Breakfast"),
+        MEAT(R.drawable.ic_food62, "Meat"),
+        SAUSAGE(R.drawable.ic_food71, "Sausage"),
+        HOT_DOG(R.drawable.ic_food118, "Hot dog"),
+        CANDY(R.drawable.ic_food83, "Candy"),
+        ICE_CREAM(R.drawable.ic_food89, "Ice cream"),
+        BEVERAGES(R.drawable.ic_food92, "Beverages"),
+        SOUP(R.drawable.ic_food101, "Soup"),
+        ALCOHOL(R.drawable.ic_food110, "Alcohol"),
+        BURGERS(R.drawable.ic_food115, "Burgers"),
+        PIZZA(R.drawable.ic_food117, "Pizza"),
+        CHICKEN(R.drawable.ic_food126, "Chicken"),
+        FISH(R.drawable.ic_food127, "Fish"),
+        CAKE(R.drawable.ic_food134, "Cake"),
+        BBQ(R.drawable.ic_food156, "BBQ"),
+        FORMAL_DINNER(R.drawable.ic_food164, "Formal dinner"),
+        OTHER(R.drawable.ic_food174, "Other"),
+        SMOOTHIE(R.drawable.ic_food181, "Smoothie"),
+        COFFEE(R.drawable.ic_food194, "Coffee"),
+        TEA(R.drawable.ic_food195, "Tea");
+
+        private static HashMap<String, EventIcon> map;
 
         public final int icid;
-        EventIcon(int icid) {
-            this.icid = icid;
+        public final String name;
+
+        EventIcon(int icid, String name) {
+            this.icid = icid; this.name = name;
+        }
+
+        public static EventIcon getIcon(String name) {
+            if(map == null) {
+                map = new HashMap<String, EventIcon>();
+                for(EventIcon ei: EventIcon.values()) {
+                    map.put(ei.name, ei);
+                }
+            }
+            if(map.containsKey(name)) {
+                return map.get(name);
+            } else {
+                return OTHER;
+            }
         }
     }
 }

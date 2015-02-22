@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -23,6 +24,8 @@ public class EventActivity extends Activity {
     private MenuItem mToggleNotify;
     public static boolean notifyOn;
 
+    private SwipeRefreshLayout mRefresher;
+
     //private RecyclerView mRecyclerView;
     //private EventAdapter mAdapter;
     //private RecyclerView.LayoutManager mLayoutManager;
@@ -32,8 +35,10 @@ public class EventActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
 
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
         mListView = (ListView)findViewById(R.id.event_list_view);
-        mAdapter = new EventListAdapter();
+        mAdapter = new EventListAdapter(EventActivity.this, sharedPref);
 
         mListView.setAdapter(mAdapter);
 
@@ -62,7 +67,7 @@ public class EventActivity extends Activity {
         // we don't look for swipes.
         mListView.setOnScrollListener(touchListener.makeScrollListener());
 
-        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        //final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPref.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -73,6 +78,15 @@ public class EventActivity extends Activity {
                         mToggleNotify.setIcon(R.drawable.ic_sync_disabled_white_36dp);
                     }
                 }
+            }
+        });
+
+        mRefresher = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        mRefresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mAdapter.get();
+                mRefresher.setRefreshing(false);
             }
         });
     }

@@ -10,9 +10,7 @@ import me.freets.freetsandroid.R;
 
 public class SettingsActivity extends Activity {
 
-    public static void toggleNotify() {
-
-    }
+    public static int FREETS_EVENT_LIMIT = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

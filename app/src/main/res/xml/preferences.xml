@@ -13,4 +13,12 @@
         android:entries="@array/pref_notify_when_entries"
         android:entryValues="@array/pref_notify_when_values"
         android:defaultValue="@string/pref_notify_when_default" />
+    <ListPreference
+        android:key="pref_location_id"
+        android:title="Set college"
+        android:summary="Choose your college so you can get tailored freets!"
+        android:entries="@array/pref_location_id_entries"
+        android:entryValues="@array/pref_location_id_values"
+        android:defaultValue="812"
+        />
 </PreferenceScreen>
