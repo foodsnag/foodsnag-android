@@ -1,6 +1,7 @@
 package me.freets.freetsandroid.adapter;
 
 import android.database.DataSetObserver;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class EventListAdapter extends BaseAdapter {
     public EventListAdapter() {
         List<Event> mock = new ArrayList<Event>();
         mock.add(new Event("HVZ Pizza Party", "Sundial", "RIT", new GregorianCalendar(2015, 2, 28, 13, 0), Event.EventIcon.PIZZA));
-        mock.add(new Event("Honors Pizza Friday", "Orange Hall", "RIT", new GregorianCalendar(2015, 2, 27, 12, 0), Event.EventIcon.PIZZA));
+        mock.add(new Event("Honors Pizza Friday", "Orange Hall", "RIT", new GregorianCalendar(2015, 2, 22, 0, 30), Event.EventIcon.PIZZA));
         Event e = new Event("e Event", "h Hall", "c College", new GregorianCalendar(2015, 1, 1, 0, 0), Event.EventIcon.BURGERS);
         mock.add(e);
         mock.add(e);
@@ -101,6 +103,14 @@ public class EventListAdapter extends BaseAdapter {
         name.setText(event.name);
         location.setText(event.location);
         img.setImageResource(event.ic.icid);
+
+        Calendar cal = Calendar.getInstance();
+        if(cal.compareTo(event.cal) > 0) {
+            time.setTextColor(v.getContext().getResources().getColor(R.color.event_location));
+        } else if (cal.get(Calendar.MINUTE) - event.cal.get(Calendar.MINUTE) <= 30)  {
+            time.setTypeface(Typeface.DEFAULT_BOLD);
+            time.setTextColor(v.getContext().getResources().getColor(R.color.accent));
+        }
 
         return v;
     }
