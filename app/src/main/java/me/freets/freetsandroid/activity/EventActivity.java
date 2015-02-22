@@ -2,31 +2,39 @@ package me.freets.freetsandroid.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import me.freets.freetsandroid.R;
-import me.freets.freetsandroid.adapter.EventAdapter;
+import me.freets.freetsandroid.adapter.EventListAdapter;
 
 public class EventActivity extends Activity {
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private ListView mListView;
+    private ListAdapter mAdapter;
+
+    //private RecyclerView mRecyclerView;
+    //private EventAdapter mAdapter;
+    //private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
 
-        mRecyclerView = (RecyclerView)findViewById(R.id.event_recycler_view);
-        mLayoutManager = new LinearLayoutManager(this);
+        mListView = (ListView)findViewById(R.id.event_list_view);
+        mAdapter = new EventListAdapter();
 
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new EventAdapter();
-        mRecyclerView.setAdapter(mAdapter);
+        mListView.setAdapter(mAdapter);
+
+//        mRecyclerView = (RecyclerView)findViewById(R.id.event_recycler_view);
+//        mLayoutManager = new LinearLayoutManager(this);
+//
+//        mRecyclerView.setLayoutManager(mLayoutManager);
+//        mAdapter = new EventAdapter();
+//        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -67,5 +68,13 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     @Override
     public int getItemCount() {
         return mDataset.size();
+    }
+
+    public void remove(Event event) {
+        this.mDataset.remove(event);
+    }
+
+    public Event getItem(int position) {
+        return mDataset.get(position);
     }
 }
