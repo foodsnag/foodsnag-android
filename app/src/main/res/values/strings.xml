@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Freets Android</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_event">EventActivity</string>
+    <string name="hah">HaHa</string>
+
+    <string name="default_time">12:00 PM</string>
+    <string name="default_name">Honors Pizza Friday</string>
+    <string name="default_location">Orange Hall</string>
+</resources>

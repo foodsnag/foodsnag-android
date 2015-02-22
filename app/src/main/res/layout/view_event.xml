@@ -1,0 +1,60 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/event_padding"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical">
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/event_check"
+            android:paddingRight="@dimen/event_padding"/>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/event_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/default_name"
+                android:textColor="@color/event_name"
+                android:textSize="@dimen/event_name_size"/>
+
+            <TextView
+                android:id="@+id/event_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/default_location"
+                android:textColor="@color/event_location"
+                android:textSize="@dimen/event_location_size"/>
+        </LinearLayout>
+
+        <TextView
+            android:gravity="right"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/event_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/default_time"
+            android:textColor="@color/event_name"
+            android:textSize="@dimen/event_time_size"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/Separator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/stroke"/>
+
+</LinearLayout>
