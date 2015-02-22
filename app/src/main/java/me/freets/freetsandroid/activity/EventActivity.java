@@ -9,13 +9,16 @@ import android.widget.ListView;
 import com.example.android.swipedismiss.SwipeDismissListViewTouchListener;
 
 import me.freets.freetsandroid.R;
-import me.freets.freetsandroid.adapter.EventAdapter;
 import me.freets.freetsandroid.adapter.EventListAdapter;
 
 public class EventActivity extends Activity {
 
     private ListView mListView;
     private EventListAdapter mAdapter;
+
+    private Menu menu;
+    private MenuItem mToggleNotify;
+    public static boolean notifyOn;
 
     //private RecyclerView mRecyclerView;
     //private EventAdapter mAdapter;
@@ -55,12 +58,15 @@ public class EventActivity extends Activity {
         // Setting this scroll listener is required to ensure that during ListView scrolling,
         // we don't look for swipes.
         mListView.setOnScrollListener(touchListener.makeScrollListener());
+
+        notifyOn = true;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_event, menu);
+        mToggleNotify = menu.findItem(R.id.action_enable_notify);
         return true;
     }
 
@@ -72,8 +78,17 @@ public class EventActivity extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(id) {
+            case R.id.action_settings:
+                return true;
+            case R.id.action_enable_notify:
+                if(notifyOn) {
+                    mToggleNotify.setIcon(R.drawable.ic_sync_disabled_white_36dp);
+                } else {
+                    mToggleNotify.setIcon(R.drawable.ic_sync_white_36dp);
+                }
+                notifyOn = !notifyOn;
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

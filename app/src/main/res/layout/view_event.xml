@@ -12,11 +12,19 @@
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical">
 
-        <Switch
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxHeight="20px"
+            android:maxWidth="20px"
+            android:id="@+id/event_icon"
+            android:paddingRight="@dimen/event_padding"/>
+
+        <!--<Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/event_check"
-            android:paddingRight="@dimen/event_padding"/>
+            android:paddingRight="@dimen/event_padding"/>-->
 
         <LinearLayout
             android:layout_height="wrap_content"
